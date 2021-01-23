@@ -8,7 +8,7 @@ const logger = require('koa-logger')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
-
+const koajwt = require('koa-jwt')
 // error handler
 onerror(app)
 
@@ -31,6 +31,13 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
+
+// 注意：放在路由前面
+app.use(koajwt({
+  secret: 'my_token'
+}).unless({ // 配置白名单
+  path: [/\/api\/register/, /\/api\/login/]
+}))
 
 // routes
 app.use(index.routes(), index.allowedMethods())
