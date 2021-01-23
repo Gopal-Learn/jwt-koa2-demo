@@ -7,7 +7,6 @@ router.post('/register', User.register);
 router.post('/login', User.login);
 router.get('/info', User.userinfo);
 
-
 router.get('/', function (ctx, next) {
   ctx.body = 'this is a users response!'
 })

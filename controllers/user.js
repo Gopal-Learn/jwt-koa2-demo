@@ -3,7 +3,6 @@ const crypto = require("crypto"),
 // TODO:使用数据库
 // 这里应该是用数据库存储，这里只是演示用
 let userList = [];
-let index = 0;
 
 class UserController {
   // 用户注册
@@ -41,8 +40,7 @@ class UserController {
     if (result) {
       const token = jwt.sign(
         {
-          name: result.name,
-          _id: index++,
+          name: result.name
         },
         "my_token",
         { expiresIn: 60 * 60 }
@@ -64,25 +62,10 @@ class UserController {
   // 获取用户信息
   static async userinfo(ctx) {
     const data = ctx.state.user;
-    const user = userList.find(item => item._id === data._id)
-
-    if (user) {
-      const result = {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-      };
-      return ctx.body = {
-        code: "0",
-        message: "success",
-        data: {
-          ...result
-        }
-      }
-    } else {
-      return ctx.body = {
-        code: "000002",
-        message: "获取信息失败"
+    return ctx.body = {
+      code: "0",
+      data: {
+        ...data
       }
     }
   }
