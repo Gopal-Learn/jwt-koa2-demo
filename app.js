@@ -32,9 +32,21 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
+// 错误处理
+app.use((ctx, next) => {
+  return next().catch((err) => {
+      if(err.status === 401){
+          ctx.status = 401;
+        ctx.body = 'Protected resource, use Authorization header to get access\n';
+      }else{
+          throw err;
+      }
+  })
+})
+
 // 注意：放在路由前面
 app.use(koajwt({
-  secret: 'my_token'
+  secret: 'Gopal_token'
 }).unless({ // 配置白名单
   path: [/\/api\/register/, /\/api\/login/]
 }))
