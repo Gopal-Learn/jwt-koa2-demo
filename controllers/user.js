@@ -42,8 +42,8 @@ class UserController {
         {
           name: result.name
         },
-        "my_token",
-        { expiresIn: 60 * 60 }
+        "Gopal_token", // secret
+        { expiresIn: 60 * 60 } // 60 * 60 s
       );
       return ctx.body = {
         code: "0",
